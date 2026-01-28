@@ -40,11 +40,15 @@ jobs:
           flags: unittests
           name: codecov-umbrella
 
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v4
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
         with:
-          name: coverage-report-node-${{ matrix.node-version }}
-          path: coverage/
+          files: ./coverage/coverage-final.json
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Comment coverage on PR
         if: github.event_name == 'pull_request'
